@@ -67,7 +67,7 @@ to robots and other objects.  This file tells Stage everything about the environ
 ### controller node
 The controller node has the task of moving the robot in the circuit, but it is also the handler of the inputs coming from the UI node.
 * Subscription:
-   -`base_scan (sensor_msgs/LaserScan)`: scans from the laser model
+   - `base_scan (sensor_msgs/LaserScan)`: scans from the laser model
 * Publishing:
    - `cmd_vel (geometry_msgs/Twist)` topic, here is published robot velocity
 
@@ -75,3 +75,81 @@ In this node I have created some function:
 
 * float Distance(float obs_dist[], int val_min, int val_max)
 
+__arguments:__
+
+- `obs_dist[]`: array wich contains 721 elements wich are the distance of the obstacles from the robot
+- `val_min`: minimum index of the subsection of the array that we want to analyze
+- `val_max`: maximum index of the subsection of the array that we want to analyze
+
+__return:__
+
+- `dist_min`: minimum distance from an obstacle in the subsection of the array
+
+Thanks to the subscription to the `base_scan` topic is possible to use the ranges vector to see robot distance from walls, 
+the robot can see with a field of view of 180° in front of him, this field (given in radiants) is divided in 721 section.
+Thanks a for loop and an if statement is possible to find the smallest value in each range.
+
+* void robotCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
+
+This callback function is called whenever a message is posted on the topic `base_scan`.
+Here the velocity is published on the topic `cmd_vel` and, after the division of the array ranges in subsections wich represent robot right,
+left and front, is called the function `Distance(...)`.
+
+```cpp
+dist_min_right = Distance(scanner, 0, 100);
+dist_min_left = Distance(scanner, 620, 720);
+dist_min_front = Distance(scanner, 300, 420);
+```
+Then using a logic similar to that used in [assignment 1](https://github.com/andreamanera/RTassignment1) we decide if the
+robot has to go stright, turn left or turn right.
+
+```cpp
+if(dist_min_front < 1.5){
+		if(dist_min_left > dist_min_right){
+			my_vel.angular.z = 1.0;
+			my_vel.linear.x = 0.3;
+		}
+		else if(dist_min_right > dist_min_left){
+			my_vel.angular.z = -1.0;
+			my_vel.linear.x = 0.3;
+		}
+	}
+	else{
+		my_vel.linear.x = 1.0+acceleration;
+		my_vel.angular.z = 0.0;
+	}
+```
+
+* bool serviceCallback (second_assignment::accelerate::Request &req, second_assignment::accelerate::Response &res)
+
+Server to receive the client request from the UI node.
+
+Here is where the user's keyboard input is received. some if statement. `a` key allows to accelerate, the `d` to decelerate and
+the `r` to call the standard 'reset_position' service from the 'std_srvs' package: this tool made it very easy to reset the robot to its initial position.
+When the user decides to accelerate, a global variable is incremented and added to the speed of th robot. The opposite happens for deceleration.
+`x` is used just to avoid the gloabal variable to increment non-stop. 
+
+```cpp
+if(req.input == 'a'){
+		acceleration += 0.5;
+		req.input = 'x';
+	}
+	if(req.input == 'd'){
+			acceleration -= 0.5;
+			req.input = 'x';
+	}
+	if(req.input == 'r'){
+		ros::service::call("/reset_positions", res_pos);
+	}
+	if(req.input == 'x'){
+		return false;
+	}
+	if(req.input != 'a' && req.input != 'd' && req.input != 'r' && req.input != 'x'){
+		std::cout<<"wrong key"<<std::endl;
+		fflush(stdout);
+	}
+	 
+	res.acc = acceleration;
+	return true;
+```
+This function also creates the server's response to the client's request; in particular, the response consists of the float containing the value of acceleration (the value of the global variable wich increment velocity).
