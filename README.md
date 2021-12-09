@@ -6,7 +6,10 @@ The tasks for this assignment are to move the robot in the environment (Monza ci
 and to give the user the possibility to increase or decrease robot velocity.
 
 * # **The environment (Monza circuit)**
-<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/tracciato.jpg">
+<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/tracciato.jpg" width="600" height="500">
+
+
+* # **The robot moving towards the environment**
 
 Installing and running
 ----------------------
