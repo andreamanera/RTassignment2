@@ -10,7 +10,7 @@ and to give the user the possibility to increase or decrease robot velocity.
 the small blue dot that you see at the bottom of the image, running in the circuit, is the robot.
    
 <p align="center">
-<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/tacciato%2Brobot.jpg" width="500" height="400">
+<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/tacciato%2Brobot.jpg" width="450" height="350">
 </p>
 
 Installing and running
@@ -155,11 +155,17 @@ the global variable wich increment velocity).
 
 The UI node represent the user interface of the project. Thanks to this node is possible to modify the velocity of the robot and also to reset the position to the
 initial state.
-To change the speed and reset the position use these commands:
+
+* Subscription:
+   - `base_scan (sensor_msgs/LaserScan)`: scans from the laser model
+* Publishing:
+   - //
+ 
+To change the speed and reset the position use the commands below:
 
 <center>
 
-| Commands | Description|
+| Commands | Result |
 |:--------:|:----------:|
 |__a__   |__Accelerate__|
 |__d__   |__Decelerate__|
@@ -211,6 +217,8 @@ The development of the code has been useful to learn how ROS works, and the logi
 A possible improvement could concern the aesthetic part of the UI that maybe could make the user experience more enjoyable. Another improvement
 concerns the behavior of the robot at high speed in fact it often happens that, if the speed is greatly increased, the robot does not works well
 (even if this represents a real behavior).
+
+**NOTE:** if you want to see a commented version of the code open code files in any code editor
 
 
 
