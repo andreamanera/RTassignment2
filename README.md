@@ -5,10 +5,6 @@ The second assignment of research track 1 course is about the use of a robot sim
 The tasks for this assignment are to move the robot in the environment (Monza circuit) without hitting the wall,
 and to give the user the possibility to increase or decrease robot velocity.
 
-* # **The environment (Monza circuit)**
-<p align="center">
-<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/tracciato.jpg" width="600" height="500">
-</p>
 
 * # **The robot moving towards the environment**
 the small blue dot that you see at the bottom of the image, running in the circuit, is the robot.
@@ -152,4 +148,39 @@ if(req.input == 'a'){
 	res.acc = acceleration;
 	return true;
 ```
-This function also creates the server's response to the client's request; in particular, the response consists of the float containing the value of acceleration (the value of the global variable wich increment velocity).
+This function also creates the server's response to the client's request; in particular, the response consists of the float containing the value of acceleration (the value of
+the global variable wich increment velocity).
+
+### UI node
+
+The UI node represent the user interface of the project. Thanks to this node is possible to modify the velocity of the robot and also to reset the position to the
+initial state.
+To change the speed and reset the position use these commands:
+
+<center>
+
+| Commands | Description|
+|:--------:|:----------:|
+|__[a]__   |__To Accelerate__|
+|__[d]__   |__To Decelerate__|
+|__[r]__   |__To Reset the position__|
+
+</center>
+
+you can manage the speed and reset the position thanks to the custom service `accelerate.srv`, located in the folder `srv`, the request of the service `char input` is sent
+to the server, located in controller node, by the client (wich in this case is the UI node), in the server the request is received and the velocity is modified consequently.
+Then the value of acceleration is assigned to service response (wich is float32 `acc`).
+
+In UI node char input from keyboard is handled by the function:
+
+* char GetCh()
+
+```cpp
+char GetCh(){
+	char ch;
+	std::cout<<"press 'a' to accelerate and 'd' to decelerate, 'r' to reset robot position   ";
+	std::cin>>ch;
+	return ch;
+}
+```
+This function simply print a character request message and return the carachter given in input by the user.
