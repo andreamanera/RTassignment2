@@ -48,7 +48,7 @@ Furthermore to manage the change in speed I have implemented a custom service.
 ### stageros node
 The stageros node wraps the Stage 2-D multi-robot simulator, via libstage. Stage simulates a world as defined in .world file.
 This file tells stage everything about the world, from obstacles (usually represented via a bitmap to be used as a kind of background),
-to robots and other objects.  This file tells Stage everything about the environment, in this project the world is passed to Stage via a `.png`
+to robots and other objects. In this project the world is passed to Stage via a `.png`
 
 * Subscription:
    - `cmd_vel (geometry_msgs/Twist)` topic, to manage the velocity of the robot
