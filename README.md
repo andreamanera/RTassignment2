@@ -10,7 +10,7 @@ and to give the user the possibility to increase or decrease robot velocity.
 the small blue dot that you see at the bottom of the image, running in the circuit, is the robot.
    
 <p align="center">
-<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/tacciato%2Brobot.jpg" width="600" height="500">
+<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/tacciato%2Brobot.jpg" width="500" height="400">
 </p>
 
 Installing and running
@@ -161,9 +161,9 @@ To change the speed and reset the position use these commands:
 
 | Commands | Description|
 |:--------:|:----------:|
-|__[a]__   |__To Accelerate__|
-|__[d]__   |__To Decelerate__|
-|__[r]__   |__To Reset the position__|
+|__a__   |__Accelerate__|
+|__d__   |__Decelerate__|
+|__r__   |__Reset the position__|
 
 </center>
 
@@ -184,3 +184,35 @@ char GetCh(){
 }
 ```
 This function simply print a character request message and return the carachter given in input by the user.
+
+Flow-chart
+----------
+
+running the command `rosrun rqt_graph rqt_graph` is possible to see relationship beetween all nodes:
+
+<p align="center">
+<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/nodi%2Btopic.jpg" width="400" height="200">
+</p>
+
+I have also decided to to insert a graph wich explain the custom service behavior:
+
+<p align="center">
+<img src="https://github.com/andreamanera/RTassignment2/blob/main/images/service.jpg" width="400" height="200">
+</p>
+
+Theoretically, as you can see in the image above, I could have sent the value off acceleration back to the UI, pratically i decided
+to not implement this feature in this case.
+
+Conclusion and possible improvements
+------------------------------------
+
+I'm quite satisfied with the final result, I think that the robot behavior is correct and usually it makes more than one lap of the circuit.
+The development of the code has been useful to learn how ROS works, and the logic behind it.
+A possible improvement could concern the aesthetic part of the UI that maybe could make the user experience more enjoyable. Another improvement
+concerns the behavior of the robot at high speed in fact it often happens that, if the speed is greatly increased, the robot does not works well
+(even if this represents a real behavior).
+
+
+
+
+
